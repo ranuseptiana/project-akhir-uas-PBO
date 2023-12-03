@@ -13,7 +13,7 @@ public class Main {
         nasabah1.addAsset(new SavingAccount("Savings Account", 5000.0));
         nasabah1.addAsset(new Loan("Home Loan", 50000.0));
         nasabah1.addAsset(new CreditCard("Gold Credit Card", 10000.0));
-        
+
         System.out.println("1. Login as Teller");
         System.out.println("2. Login as Nasabah");
         System.out.println("3. Exit");
