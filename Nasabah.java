@@ -1,10 +1,7 @@
 package coba;
 
-import java.util.List;
-
 class Nasabah extends User implements BankingOperations {
     private double saldo;
-    private List<Asset> assets;
     
     public Nasabah(String username, String password, double saldo) {
         super(username, password);
@@ -31,7 +28,7 @@ class Nasabah extends User implements BankingOperations {
             addTransaction(new Transaction("Transfer to " + receiver.getUsername(), amount));
             receiver.addTransaction(new Transaction("Transfer from " + getUsername(), amount));
             saldo -= amount;
-            receiver.deposit(amount);  // Receiver deposits the transferred amount
+            receiver.saldo += amount;  // Receiver adds the transferred amount
             System.out.println("Transfer successful!");
             System.out.println("Current Balance: " + checkBalance());
         }
@@ -39,9 +36,14 @@ class Nasabah extends User implements BankingOperations {
 
     @Override
     public void payment(double amount) {
-        addTransaction(new Transaction("Payment", amount));
-        System.out.println("Payment successful!");
-        System.out.println("Current Balance: " + checkBalance());
+        if (amount > saldo) {
+            System.out.println("Insufficient funds. Payment canceled.");
+        } else {
+            addTransaction(new Transaction("Payment", amount));
+            saldo -= amount;
+            System.out.println("Payment successful!");
+            System.out.println("Current Balance: " + checkBalance());
+        }
     }
 
     @Override
