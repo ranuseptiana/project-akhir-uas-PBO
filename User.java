@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// Base class untuk semua pengguna
 class User {
     protected String username;
     protected String password;
@@ -63,5 +62,13 @@ class User {
                 historyString.append(transaction.toString()).append("\n");
             }
         return historyString.toString();
+    }
+    
+    public String getAssetsAsString() {
+        StringBuilder assetsString = new StringBuilder();
+        for (Asset asset : assets) {
+            assetsString.append(asset).append("\n");
+        }
+        return assetsString.toString();
     }
 }
