@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         // Inisialisasi pengguna
         BankTeller bankTeller = new BankTeller("teller1", "tellerpass");
         Nasabah nasabah1 = new Nasabah("nasabah1", "nasabahpass", 100000.0);
@@ -20,7 +19,7 @@ public class Main {
 
         System.out.print("Choose an option: ");
         int option = scanner.nextInt();
-        scanner.nextLine();  // Menangani newline
+        scanner.nextLine(); // Menangani newline
 
         switch (option) {
             case 1:
@@ -28,20 +27,11 @@ public class Main {
                 bankTeller.viewAllTransactions(Arrays.asList(nasabah1));
                 break;
             case 2:
-                System.out.println("Login as Nasabah");
-                System.out.print("Enter your username: ");
-                String nasabahUsername = scanner.nextLine();
-                System.out.print("Enter your password: ");
-                String nasabahPassword = scanner.nextLine();
-
-                if (nasabahUsername.equals(nasabah1.getUsername()) && nasabahPassword.equals(nasabah1.getPassword())) {
-                    nasabah1.login();
-                    handleNasabahOperations(nasabah1, scanner);
-                } else {
-                    System.out.println("Login failed. Invalid username or password.");
+                nasabah1.login();
+                boolean exitNasabahMenu = handleNasabahOperations(nasabah1, scanner);
+                if (exitNasabahMenu) {
+                    break;
                 }
-                break;
-
             case 3:
                 System.out.println("Exiting the program.");
                 System.exit(0);
@@ -52,8 +42,9 @@ public class Main {
         }
     }
 
-    private static void handleNasabahOperations(Nasabah nasabah, Scanner scanner) {
+    public static boolean handleNasabahOperations(Nasabah nasabah, Scanner scanner) {
         int nasabahOption;
+        boolean exitNasabahMenu = false;
         do {
             System.out.println("Nasabah Menu:");
             System.out.println("1. Check Balance");
@@ -67,7 +58,7 @@ public class Main {
 
             System.out.print("Choose an option: ");
             nasabahOption = scanner.nextInt();
-            scanner.nextLine();  // Menangani newline
+            scanner.nextLine(); // Menangani newline
 
             switch (nasabahOption) {
                 case 1:
@@ -102,16 +93,17 @@ public class Main {
                 case 7:
                     System.out.println("View Assets:");
                     for (Asset asset : nasabah.getAssets()) {
-                    System.out.println(asset);
-                }
-                break;
+                        System.out.println(asset);
+                    }
+                    break;
                 case 8:
                     System.out.println("Exiting Nasabah Menu.");
                     System.out.println("Success: Exiting Nasabah Menu.");
-                break;
+                    return true;
                 default:
                     System.out.println("Invalid option. Please choose again.");
-            }   
-                } while (nasabahOption != 8);
+            }
+        } while (!exitNasabahMenu);
+        return true;
     }
 }
