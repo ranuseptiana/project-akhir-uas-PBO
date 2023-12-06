@@ -4,15 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        // Inisialisasi pengguna
-        BankTeller bankTeller = new BankTeller("teller1", "tellerpass");
-        Nasabah nasabah1 = new Nasabah("nasabah1", "nasabahpass", 100000.0);
-        nasabah1.addAsset(new SavingAccount("Savings Account", 5000.0));
-        nasabah1.addAsset(new Loan("Home Loan", 50000.0));
-        nasabah1.addAsset(new CreditCard("Gold Credit Card", 10000.0));
-
+    public static void mainMenu(Scanner scanner, BankTeller bankTeller, Nasabah nasabah1){
         System.out.println("1. Login as Teller");
         System.out.println("2. Login as Nasabah");
         System.out.println("3. Exit");
@@ -28,7 +20,7 @@ public class Main {
                 break;
             case 2:
                 nasabah1.login();
-                boolean exitNasabahMenu = handleNasabahOperations(nasabah1, scanner);
+                boolean exitNasabahMenu = handleNasabahOperations(nasabah1, scanner,bankTeller);
                 if (exitNasabahMenu) {
                     break;
                 }
@@ -41,8 +33,18 @@ public class Main {
                 System.exit(0);
         }
     }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Inisialisasi pengguna
+        BankTeller bankTeller = new BankTeller("teller1", "tellerpass");
+        Nasabah nasabah1 = new Nasabah("nasabah1", "nasabahpass", 100000.0);
+        nasabah1.addAsset(new SavingAccount("Savings Account", 5000.0));
+        nasabah1.addAsset(new Loan("Home Loan", 50000.0));
+        nasabah1.addAsset(new CreditCard("Gold Credit Card", 10000.0));
+        mainMenu(scanner,bankTeller,nasabah1);
+    }
 
-    public static boolean handleNasabahOperations(Nasabah nasabah, Scanner scanner) {
+    public static boolean handleNasabahOperations(Nasabah nasabah, Scanner scanner, BankTeller bankTeller) {
         int nasabahOption;
         boolean exitNasabahMenu = false;
         do {
@@ -99,6 +101,7 @@ public class Main {
                 case 8:
                     System.out.println("Exiting Nasabah Menu.");
                     System.out.println("Success: Exiting Nasabah Menu.");
+                    mainMenu(scanner,bankTeller,nasabah);
                     return true;
                 default:
                     System.out.println("Invalid option. Please choose again.");
